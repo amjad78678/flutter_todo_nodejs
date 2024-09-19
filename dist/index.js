@@ -19,9 +19,11 @@ const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const globalErrorHandler_1 = require("./config/globalErrorHandler");
+const connectDb_1 = require("./config/connectDb");
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
+        yield (0, connectDb_1.connectDB)();
         const app = (0, express_1.default)();
         app.use(express_1.default.json());
         app.use(express_1.default.urlencoded({ extended: true }));
