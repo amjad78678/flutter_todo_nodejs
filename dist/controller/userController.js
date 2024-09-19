@@ -20,21 +20,34 @@ const postRegister = (0, asyncErrorHandler_1.default)((req, res) => __awaiter(vo
     const { username, email, password } = req.body;
     console.log("iam reqbody", req.body);
     if (!username || !email || !password) {
-        res.status(400).json({
+        return res.status(400).json({
             status: "fail",
             message: "Please provide username, email and password",
         });
     }
-    const bcryptedPassword = yield bcryptjs_1.default.hash(password, 10);
-    const user = yield userModel_1.default.create({
-        username,
-        email,
-        password: bcryptedPassword,
-    });
-    res.status(201).json({
-        status: "success",
-        user,
-    });
+    try {
+        const bcryptedPassword = yield bcryptjs_1.default.hash(password.toString(), 10);
+        console.log("Bcrypted Password:", bcryptedPassword);
+        // Continue with the rest of your registration logic, like saving the user
+        const newUser = yield userModel_1.default.create({
+            username,
+            email,
+            password: bcryptedPassword,
+        });
+        res.status(201).json({
+            status: "success",
+            data: {
+                user: newUser,
+            },
+        });
+    }
+    catch (err) {
+        console.error("Error hashing password or saving user:", err);
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error during registration",
+        });
+    }
 }));
 exports.postRegister = postRegister;
 const getWork = (0, asyncErrorHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

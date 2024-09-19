@@ -20,6 +20,7 @@ const cors_1 = __importDefault(require("cors"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const globalErrorHandler_1 = require("./config/globalErrorHandler");
 const connectDb_1 = require("./config/connectDb");
+const port = process.env.PORT || 4000;
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
@@ -30,12 +31,20 @@ function init() {
         }));
         app.use("/api", userRoutes_1.default);
         app.use(globalErrorHandler_1.globalErrorHandler);
-        yield (0, connectDb_1.connectDB)();
+        // Bind the server first
         const httpServer = http_1.default.createServer(app);
-        const PORT = process.env.PORT ? process.env.PORT : 3000;
-        httpServer.listen(PORT, () => {
-            console.log(`${PORT} is running on localhost`);
-        });
+        httpServer.listen(port, () => __awaiter(this, void 0, void 0, function* () {
+            console.log(`${port} is running on localhost`);
+            // Now try to connect to the database
+            try {
+                yield (0, connectDb_1.connectDB)();
+                console.log('Database connected successfully');
+            }
+            catch (err) {
+                console.error('Error connecting to the database:', err);
+                process.exit(1); // Exit the process if the DB connection fails
+            }
+        }));
     });
 }
 init();
