@@ -16,7 +16,6 @@ const postRegister = asyncErrorHandler(async (req: Request, res: Response) => {
   }
 
   const bcryptedPassword = await bcryptjs.hash(password, 10);
-
   const user = await User.create({
     username,
     email,
