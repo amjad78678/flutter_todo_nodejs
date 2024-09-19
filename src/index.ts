@@ -7,6 +7,8 @@ import userRouter from "./routes/userRoutes";
 import { globalErrorHandler } from "./config/globalErrorHandler";
 import { connectDB } from "./config/connectDb";
 
+const port = process.env.PORT || 4000;
+
 async function init() {
   const app = express();
   app.use(express.json());
@@ -23,10 +25,9 @@ async function init() {
 
   await connectDB();
   const httpServer = http.createServer(app);
-  const PORT = process.env.PORT ? process.env.PORT : 3000;
 
-  httpServer.listen(PORT, () => {
-    console.log(`${PORT} is running on localhost`);
+  httpServer.listen(port, () => {
+    console.log(`${port} is running on localhost`);
   });
 }
 
