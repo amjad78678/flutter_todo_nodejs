@@ -22,18 +22,17 @@ const globalErrorHandler_1 = require("./config/globalErrorHandler");
 const connectDb_1 = require("./config/connectDb");
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a;
         const app = (0, express_1.default)();
         app.use(express_1.default.json());
         app.use(express_1.default.urlencoded({ extended: true }));
-        yield (0, connectDb_1.connectDB)();
         app.use((0, cors_1.default)({
             origin: "*",
         }));
         app.use("/api", userRoutes_1.default);
         app.use(globalErrorHandler_1.globalErrorHandler);
+        yield (0, connectDb_1.connectDB)();
         const httpServer = http_1.default.createServer(app);
-        const PORT = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
+        const PORT = process.env.PORT ? process.env.PORT : 3000;
         httpServer.listen(PORT, () => {
             console.log(`${PORT} is running on localhost`);
         });

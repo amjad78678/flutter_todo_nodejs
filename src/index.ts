@@ -11,7 +11,7 @@ async function init() {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  await connectDB();
+
   app.use(
     cors({
       origin: "*",
@@ -21,8 +21,9 @@ async function init() {
   app.use("/api", userRouter);
   app.use(globalErrorHandler);
 
+  await connectDB();
   const httpServer = http.createServer(app);
-  const PORT = process.env.PORT ?? 3000;
+  const PORT = process.env.PORT ? process.env.PORT : 3000;
 
   httpServer.listen(PORT, () => {
     console.log(`${PORT} is running on localhost`);
