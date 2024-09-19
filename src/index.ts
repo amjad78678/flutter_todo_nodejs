@@ -23,12 +23,21 @@ async function init() {
   app.use("/api", userRouter);
   app.use(globalErrorHandler);
 
-  await connectDB();
+  // Bind the server first
   const httpServer = http.createServer(app);
-
-  httpServer.listen(port, () => {
+  httpServer.listen(port, async () => {
     console.log(`${port} is running on localhost`);
+
+    // Now try to connect to the database
+    try {
+      await connectDB();
+      console.log('Database connected successfully');
+    } catch (err) {
+      console.error('Error connecting to the database:', err);
+      process.exit(1);  // Exit the process if the DB connection fails
+    }
   });
 }
 
 init();
+
