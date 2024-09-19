@@ -16,7 +16,8 @@ exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const connectionInstance = yield mongoose_1.default.connect(`${process.env.MONGODB_URI}${process.env.DATABASE_NAME}`);
+        const connectionInstance = yield mongoose_1.default.connect(`${process.env.MONGODB_URI}`);
+        console.log(`MongoDB connected for this: ${connectionInstance.connection.host}`);
     }
     catch (error) {
         const err = error;
