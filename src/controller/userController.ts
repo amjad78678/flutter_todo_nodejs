@@ -14,30 +14,19 @@ const postRegister = asyncErrorHandler(async (req: Request, res: Response) => {
       message: "Please provide username, email and password",
     });
   }
-  try {
-    const bcryptedPassword = await bcryptjs.hash(password.toString(), 10);
-    console.log("Bcrypted Password:", bcryptedPassword);
 
-    // Continue with the rest of your registration logic, like saving the user
-    const newUser = await User.create({
-      username,
-      email,
-      password: bcryptedPassword,
-    });
+  // const bcryptedPassword = await bcryptjs.hash(password, 10);
+  // console.log("iam bcrypted", bcryptedPassword);
+  const user = await User.create({
+    username,
+    email,
+    password: password,
+  });
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        user: newUser,
-      },
-    });
-  } catch (err) {
-    console.error("Error hashing password or saving user:", err);
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error during registration",
-    });
-  }
+  res.status(201).json({
+    status: "success",
+    user,
+  });
 });
 const getWork = asyncErrorHandler(async (req: Request, res: Response) => {
   res.status(200).json({
