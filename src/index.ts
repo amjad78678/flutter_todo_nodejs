@@ -4,6 +4,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import userRouter from "./routes/userRoutes";
+import { globalErrorHandler } from "./config/globalErrorHandler";
 
 async function init() {
   const app = express();
@@ -11,7 +12,7 @@ async function init() {
   app.use(express.urlencoded({ extended: true }));
   app.use(
     cors({
-      origin: "http://localhost:5000/",
+      origin: "*",
     })
   );
   app.use("/", (req, res) => {
@@ -19,6 +20,8 @@ async function init() {
   });
 
   app.use("/api", userRouter);
+  app.use(globalErrorHandler);
+
   const httpServer = http.createServer(app);
   const PORT = process.env.PORT ?? 3000;
 
