@@ -7,13 +7,11 @@ import userRouter from "./routes/userRoutes";
 import { globalErrorHandler } from "./config/globalErrorHandler";
 import { connectDB } from "./config/connectDb";
 
-
-
 async function init() {
-  await connectDB();
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  await connectDB();
   app.use(
     cors({
       origin: "*",

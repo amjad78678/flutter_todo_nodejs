@@ -23,10 +23,10 @@ const connectDb_1 = require("./config/connectDb");
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
-        yield (0, connectDb_1.connectDB)();
         const app = (0, express_1.default)();
         app.use(express_1.default.json());
         app.use(express_1.default.urlencoded({ extended: true }));
+        yield (0, connectDb_1.connectDB)();
         app.use((0, cors_1.default)({
             origin: "*",
         }));
