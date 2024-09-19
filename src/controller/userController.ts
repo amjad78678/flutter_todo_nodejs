@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import asyncErrorHandler from "../config/asyncErrorHandler";
 import User from "../model/userModel";
+import bcryptjs from "bcryptjs";
 
 const postRegister = asyncErrorHandler(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -14,7 +15,13 @@ const postRegister = asyncErrorHandler(async (req: Request, res: Response) => {
     });
   }
 
-  const user = await User.create({ username, email, password });
+  const bcryptedPassword = await bcryptjs.hash(password, 10);
+
+  const user = await User.create({
+    username,
+    email,
+    password: bcryptedPassword,
+  });
 
   res.status(201).json({
     status: "success",
