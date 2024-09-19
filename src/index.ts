@@ -15,9 +15,6 @@ async function init() {
       origin: "*",
     })
   );
-  app.use("/", (req, res) => {
-    res.json("the server is up and running");
-  });
 
   app.use("/api", userRouter);
   app.use(globalErrorHandler);

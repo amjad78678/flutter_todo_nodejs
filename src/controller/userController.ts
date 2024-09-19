@@ -27,5 +27,11 @@ const postRegister = asyncErrorHandler(async (req: Request, res: Response) => {
     user,
   });
 });
+const getWork = asyncErrorHandler(async (req: Request, res: Response) => {
+  res.status(200).json({
+    status: "success",
+    message: "Server is up and running",
+  });
+});
 
-export { postRegister };
+export { postRegister, getWork };
