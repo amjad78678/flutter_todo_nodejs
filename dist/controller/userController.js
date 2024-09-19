@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postRegister = void 0;
+exports.getWork = exports.postRegister = void 0;
 const asyncErrorHandler_1 = __importDefault(require("../config/asyncErrorHandler"));
 const userModel_1 = __importDefault(require("../model/userModel"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const postRegister = (0, asyncErrorHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, password } = req.body;
     console.log("iam reqbody", req.body);
@@ -24,10 +25,22 @@ const postRegister = (0, asyncErrorHandler_1.default)((req, res) => __awaiter(vo
             message: "Please provide username, email and password",
         });
     }
-    const user = yield userModel_1.default.create({ username, email, password });
+    const bcryptedPassword = yield bcryptjs_1.default.hash(password, 10);
+    const user = yield userModel_1.default.create({
+        username,
+        email,
+        password: bcryptedPassword,
+    });
     res.status(201).json({
         status: "success",
         user,
     });
 }));
 exports.postRegister = postRegister;
+const getWork = (0, asyncErrorHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.status(200).json({
+        status: "success",
+        message: "Server is up and running",
+    });
+}));
+exports.getWork = getWork;

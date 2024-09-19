@@ -28,9 +28,6 @@ function init() {
         app.use((0, cors_1.default)({
             origin: "*",
         }));
-        app.use("/", (req, res) => {
-            res.json("the server is up and running");
-        });
         app.use("/api", userRoutes_1.default);
         app.use(globalErrorHandler_1.globalErrorHandler);
         const httpServer = http_1.default.createServer(app);
