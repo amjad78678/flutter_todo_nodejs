@@ -1,4 +1,5 @@
 import connectDb from "@/config/connectDb";
+connectDb();
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
@@ -8,7 +9,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    await connectDb();
+   
     const body = await req.json();
     console.log("iam body", body);
 
