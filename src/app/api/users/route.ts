@@ -1,10 +1,11 @@
 import connectDb from "@/config/connectDb";
-connectDb();
+
 import User from "@/models/userModel";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    await connectDb();
     const users = await User.find({});
     console.log("iam users", users);
     return NextResponse.json({ users: users }, { status: 200 });
