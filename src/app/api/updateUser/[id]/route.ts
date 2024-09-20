@@ -19,6 +19,7 @@ export async function PUT(
     }
 
     console.log("iam body", body.password);
+    console.log("iam body", body);
     await User.updateOne({ _id: params.id }, { $set: { ...body } });
 
     const user = await User.findOne({ _id: params.id });
